@@ -1129,9 +1129,43 @@
 	</Device>
 
 	<Device type="dimmer" id="component-cover">
-		<Name>Cover Component</Name>
+		<Name>Cover (Roller/Shutter)</Name>
 		<ConfigUI>
+			<Field id="name" type="textfield">
+				<Label>Name:</Label>
+			</Field>
 
+			<Field id="in-mode" type="menu" defaultValue="">
+				<Label>Input Mode:</Label>
+				<List>
+					<Option value="">-- unchanged --</Option>
+					<Option value="single">Single (one button controls open/close/stop)</Option>
+					<Option value="dual">Dual (separate open and close buttons)</Option>
+					<Option value="detached">Detached (inputs don't control cover)</Option>
+				</List>
+			</Field>
+
+			<Field id="initial-pos" type="menu" defaultValue="">
+				<Label>Initial Position:</Label>
+				<List>
+					<Option value="">-- unchanged --</Option>
+					<Option value="open">Open</Option>
+					<Option value="closed">Closed</Option>
+					<Option value="stopped">Stopped</Option>
+					<Option value="match_input">Match Input</Option>
+				</List>
+			</Field>
+
+			<Field id="cover-config-write-sep" type="separator"/>
+
+			<Field id="cover-config-write-help" type="label" fontColor="darkgray">
+				<Label>Write the current configuration to the device for this cover only. Be mindful about empty fields and check the log for error messages.</Label>
+			</Field>
+
+			<Field id="cover-config-write" type="button" tooltip="Click this button to write the cover configuration">
+				<Title>Write Configuration</Title>
+				<CallbackMethod>_write_cover_configuration</CallbackMethod>
+			</Field>
 		</ConfigUI>
 	</Device>
 

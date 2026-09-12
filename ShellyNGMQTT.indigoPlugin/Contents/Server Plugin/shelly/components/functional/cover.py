@@ -22,10 +22,14 @@ class Cover(Component):
         states.extend([
             indigo.activePlugin.getDeviceStateDictForStringType("cover_state", "Cover State", "Cover State"),
             indigo.activePlugin.getDeviceStateDictForNumberType("temperature_c", "Temperature (C)", "Temperature (C)"),
+            indigo.activePlugin.getDeviceStateDictForNumberType("temperature_f", "Temperature (F)", "Temperature (F)"),
             indigo.activePlugin.getDeviceStateDictForNumberType("apower", "Power (W)", "Power (W)"),
             indigo.activePlugin.getDeviceStateDictForNumberType("voltage", "Voltage (V)", "Voltage (V)"),
         ])
         return states
+
+    def get_device_display_state_id(self):
+        return "cover_state"
 
     def handle_action(self, action):
         super(Cover, self).handle_action(action)
@@ -68,6 +72,15 @@ class Cover(Component):
         temp_c = status.get('temperature', {}).get('tC', None)
         if temp_c is not None and "temperature_c" in self.device.states:
             updated_states.append({'key': 'temperature_c', 'value': temp_c, 'uiValue': "{} °C".format(temp_c)})
+            temp_f = round(temp_c * 9.0 / 5.0 + 32, 1)
+            if "temperature_f" in self.device.states:
+                updated_states.append({'key': 'temperature_f', 'value': temp_f, 'uiValue': "{} °F".format(temp_f)})
+
+        errors = status.get('errors', None)
+        if errors:
+            self.device.setErrorStateOnServer(", ".join(errors))
+        elif errors is not None:
+            self.device.setErrorStateOnServer(None)
 
         apower = status.get('apower', None)
         if apower is not None and "apower" in self.device.states:

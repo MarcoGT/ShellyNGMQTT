@@ -500,7 +500,7 @@ class Plugin(indigo.PluginBase):
                 'address': values_dict["address"],
                 'message-type': values_dict["message-type"],
                 'is-initial-setup': False,
-                'profile': values_dict.get("profile", "switch")
+                'profile': values_dict.get("profile", "none")
             }
             if model_class.display_name not in group_models:
                 # The main device is not in the group, so create one
@@ -969,6 +969,26 @@ class Plugin(indigo.PluginBase):
             config['name'] = None
 
         switch.set_config(config)
+
+    def _write_cover_configuration(self, values_dict, type_id, dev_id):
+        """
+        Handler for writing the cover component's configuration.
+
+        :param values_dict:
+        :param type_id:
+        :param dev_id:
+        :return: None
+        """
+
+        cover = self.get_component(indigo.devices[dev_id])
+
+        config = {
+            'name': values_dict.get("name", "") or None,
+            'in_mode': values_dict.get("in-mode", "") or None,
+            'initial_pos': values_dict.get("initial-pos", "") or None,
+        }
+
+        cover.set_config(config)
 
     def _write_input_configuration(self, values_dict, type_id, dev_id):
         """

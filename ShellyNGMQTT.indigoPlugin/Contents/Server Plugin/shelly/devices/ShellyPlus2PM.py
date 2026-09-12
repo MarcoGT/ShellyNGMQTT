@@ -1,14 +1,13 @@
 import indigo
 
 from .Shelly import Shelly
-from ..components.functional.cover import Cover
 from ..components.functional.switch import Switch
+from ..components.functional.cover import Cover
 from ..components.functional.input import Input
 from ..components.system.system import System
 from ..components.system.wifi import WiFi
 from ..components.system.ble import BLE
 from ..components.system.mqtt import MQTT
-from ..components.system.script import Script
 
 
 class ShellyPlus2PM(Shelly):
@@ -26,8 +25,7 @@ class ShellyPlus2PM(Shelly):
             'system': System(self),
             'wifi': WiFi(self),
             'ble': BLE(self),
-            'mqtt': MQTT(self),
-            'script': Script(self)
+            'mqtt': MQTT(self)
         }
 
         profile = self.device.pluginProps.get('profile', 'switch')
@@ -36,7 +34,7 @@ class ShellyPlus2PM(Shelly):
             self.cover_0 = self.register_component(Cover, "Cover", comp_id=0)
             self.input_0 = self.register_component(Input, "Input 1", comp_id=0)
             self.input_1 = self.register_component(Input, "Input 2", comp_id=1)
-        else:
+        elif profile == 'switch':
             self.switch_0 = self.register_component(Switch, "Switch 1", comp_id=0, props={
                 "SupportsPowerMeter": "true",
                 "SupportsEnergyMeter": "true",
@@ -47,8 +45,10 @@ class ShellyPlus2PM(Shelly):
                 "SupportsEnergyMeter": "true",
                 "SupportsEnergyMeterCurPower": "true"
             })
-            self.input_0 = self.register_component(Input, "Input 1")
-            self.input_1 = self.register_component(Input, "Input 2")
+            self.input_0 = self.register_component(Input, "Input 1", comp_id=0)
+            self.input_1 = self.register_component(Input, "Input 2", comp_id=1)
+        else:
+            raise ValueError("Unknown profile: {}".format(profile))
 
     def handle_notify_status(self, component_type, instance_id, status):
         """
