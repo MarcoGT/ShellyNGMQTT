@@ -102,7 +102,7 @@
 				<Label>Device Profile:</Label>
 				<List>
 					<Option value="switch">Switch</Option>
-					<Option value="cover">Cover</Option>
+					<Option value="cover">Cover (Roller/Shutter)</Option>
 				</List>
 			</Field>
 		</ConfigUI>
@@ -1129,30 +1129,27 @@
 	</Device>
 
 	<Device type="dimmer" id="component-cover">
-		<Name>Cover (Roller/Shutter)</Name>
+		<Name>Cover Component</Name>
 		<ConfigUI>
 			<Field id="name" type="textfield">
 				<Label>Name:</Label>
 			</Field>
 
-			<Field id="in-mode" type="menu" defaultValue="">
+			<Field id="in-mode" type="menu" defaultValue="dual">
 				<Label>Input Mode:</Label>
 				<List>
-					<Option value="">-- unchanged --</Option>
 					<Option value="single">Single (one button controls open/close/stop)</Option>
 					<Option value="dual">Dual (separate open and close buttons)</Option>
 					<Option value="detached">Detached (inputs don't control cover)</Option>
 				</List>
 			</Field>
 
-			<Field id="initial-pos" type="menu" defaultValue="">
-				<Label>Initial Position:</Label>
+			<Field id="initial-state" type="menu" defaultValue="stopped">
+				<Label>Initial State:</Label>
 				<List>
-					<Option value="">-- unchanged --</Option>
 					<Option value="open">Open</Option>
 					<Option value="closed">Closed</Option>
 					<Option value="stopped">Stopped</Option>
-					<Option value="match_input">Match Input</Option>
 				</List>
 			</Field>
 

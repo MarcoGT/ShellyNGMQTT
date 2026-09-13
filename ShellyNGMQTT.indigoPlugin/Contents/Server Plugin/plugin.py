@@ -500,7 +500,7 @@ class Plugin(indigo.PluginBase):
                 'address': values_dict["address"],
                 'message-type': values_dict["message-type"],
                 'is-initial-setup': False,
-                'profile': values_dict.get("profile", "none")
+                'profile': values_dict.get("profile")
             }
             if model_class.display_name not in group_models:
                 # The main device is not in the group, so create one
@@ -983,9 +983,9 @@ class Plugin(indigo.PluginBase):
         cover = self.get_component(indigo.devices[dev_id])
 
         config = {
-            'name': values_dict.get("name", "") or None,
-            'in_mode': values_dict.get("in-mode", "") or None,
-            'initial_pos': values_dict.get("initial-pos", "") or None,
+            'name': values_dict.get("name"),
+            'in_mode': values_dict.get("in-mode", ""),
+            'initial_state': values_dict.get("initial-state", ""),
         }
 
         cover.set_config(config)

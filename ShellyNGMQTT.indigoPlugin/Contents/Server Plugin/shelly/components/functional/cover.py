@@ -23,7 +23,6 @@ class Cover(Component):
             indigo.activePlugin.getDeviceStateDictForStringType("cover_state", "Cover State", "Cover State"),
             indigo.activePlugin.getDeviceStateDictForNumberType("temperature_c", "Temperature (C)", "Temperature (C)"),
             indigo.activePlugin.getDeviceStateDictForNumberType("temperature_f", "Temperature (F)", "Temperature (F)"),
-            indigo.activePlugin.getDeviceStateDictForNumberType("apower", "Power (W)", "Power (W)"),
             indigo.activePlugin.getDeviceStateDictForNumberType("voltage", "Voltage (V)", "Voltage (V)"),
         ])
         return states
@@ -72,23 +71,28 @@ class Cover(Component):
         temp_c = status.get('temperature', {}).get('tC', None)
         if temp_c is not None and "temperature_c" in self.device.states:
             updated_states.append({'key': 'temperature_c', 'value': temp_c, 'uiValue': "{} °C".format(temp_c)})
-            temp_f = round(temp_c * 9.0 / 5.0 + 32, 1)
-            if "temperature_f" in self.device.states:
-                updated_states.append({'key': 'temperature_f', 'value': temp_f, 'uiValue': "{} °F".format(temp_f)})
+        temp_f = status.get('temperature', {}).get('tF', None)
+        if temp_f is not None and "temperature_f" in self.device.states:
+            updated_states.append({'key': 'temperature_f', 'value': temp_f, 'uiValue': "{} °F".format(temp_f)})
 
-        errors = status.get('errors', None)
-        if errors:
+        errors = status.get('errors')
+        if isinstance(errors, list) and errors:
             self.device.setErrorStateOnServer(", ".join(errors))
-        elif errors is not None:
+        else:
             self.device.setErrorStateOnServer(None)
 
         apower = status.get('apower', None)
-        if apower is not None and "apower" in self.device.states:
-            updated_states.append({'key': 'apower', 'value': apower, 'uiValue': "{} W".format(apower)})
+        if apower is not None and "curEnergyLevel" in self.device.states:
+            updated_states.append({'key': 'curEnergyLevel', 'value': apower, 'uiValue': "{} W".format(apower)})
 
         voltage = status.get('voltage', None)
         if voltage is not None and "voltage" in self.device.states:
             updated_states.append({'key': 'voltage', 'value': voltage, 'uiValue': "{} V".format(voltage)})
+
+        energy_total = status.get('aenergy', {}).get('total', None)
+        if energy_total is not None and "accumEnergyTotal" in self.device.states:
+            energy_total_kwh = energy_total / 1000
+            updated_states.append({'key': 'accumEnergyTotal', 'value': energy_total, 'uiValue': "{:.3f} kWh".format(energy_total_kwh)})
 
         if updated_states:
             self.device.updateStatesOnServer(updated_states)
@@ -103,7 +107,11 @@ class Cover(Component):
         if error:
             self.logger.error(error)
             return
-        self.latest_config = {'name': config.get("name", "")}
+        self.latest_config = {
+            'name': config.get("name", ""),
+            'in-mode': config.get("in_mode", ""),
+            'initial-state': config.get("initial_state", ""),
+        }
         props = self.device.pluginProps
         props.update(self.latest_config)
         self.device.replacePluginPropsOnServer(props)
