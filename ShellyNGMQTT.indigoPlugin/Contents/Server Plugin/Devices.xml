@@ -10,7 +10,6 @@
 					<Option value="shelly-plus-1">Shelly Plus 1 (mini)</Option>
 					<Option value="shelly-plus-1-pm">Shelly Plus 1 PM (mini)</Option>
 					<Option value="shelly-plus-2-pm">Shelly Plus 2 PM</Option>
-					<Option value="shelly-plus-2-pm-gen3">Shelly Plus 2 PM Gen3</Option>
 					<Option value="shelly-plus-walldimmer">Shelly Plus WallDimmer (Coming Soon!)</Option>
 					<Option value="-1">%%separator%%</Option>
 					<Option value="shelly-plus-i-4">Shelly Plus I4/I4DC</Option>
@@ -95,10 +94,10 @@
 				</Label>
 			</Field>
 
-			<Field id="model-specific-sep" type="separator" visibleBindingId="shelly-model" visibleBindingValue="shelly-plus-2-pm,shelly-plus-2-pm-gen3,shelly-pro-2-pm"/>
+			<Field id="model-specific-sep" type="separator" visibleBindingId="shelly-model" visibleBindingValue="shelly-plus-2-pm,shelly-pro-2-pm"/>
 
-			<!-- Shelly Plus 2 PM / Shelly Plus 2 PM Gen3 / Shelly Pro 2/4 PM-->
-			<Field id="profile" type="menu" defaultValue="switch" visibleBindingId="shelly-model" visibleBindingValue="shelly-plus-2-pm,shelly-plus-2-pm-gen3,shelly-pro-2-pm,shelly-pro-4-pm" alwaysUseInDialogHeightCalc="true">
+			<!-- Shelly Plus 2 PM / Shelly Pro 2/4 PM-->
+			<Field id="profile" type="menu" defaultValue="switch" visibleBindingId="shelly-model" visibleBindingValue="shelly-plus-2-pm,shelly-pro-2-pm,shelly-pro-4-pm" alwaysUseInDialogHeightCalc="true">
 				<Label>Device Profile:</Label>
 				<List>
 					<Option value="switch">Switch</Option>
@@ -213,60 +212,6 @@
 
 	<Device type="sensor" id="shelly-plus-2-pm">
 		<Name>Shelly Plus 2 PM</Name>
-		<ConfigUI>
-            <Field type="checkbox" id="SupportsStatusRequest" defaultValue="true" hidden="true" />
-            <Field type="checkbox" id="SupportsOnState" defaultValue="false" hidden="true" />
-            <Field type="checkbox" id="SupportsSensorValue" defaultValue="false" hidden="true" />
-
-			<Field id="settings-section" type="menu" defaultValue="indigo">
-				<Label>Configuration Section:</Label>
-				<List>
-					<Option value="indigo">Indigo</Option>
-					<Option value="-1">%%separator%%</Option>
-					<Option value="system">System</Option>
-					<Option value="wifi">WiFi</Option>
-					<Option value="ble">BLE</Option>
-				</List>
-			</Field>
-
-			<!-- Indigo -->
-
-			<Field id="indigo-sep" type="separator" visibleBindingId="settings-section" visibleBindingValue="indigo"/>
-
-			<Field id="broker-id" type="menu" visibleBindingId="settings-section" visibleBindingValue="indigo">
-				<Label>MQTT Broker:</Label>
-				<List class="self" filter="" method="get_broker_devices" dynamicReload="true"/>
-			</Field>
-
-			<Field id="address" type="textfield" visibleBindingId="settings-section" visibleBindingValue="indigo">
-				<Label>Base MQTT Topic:</Label>
-			</Field>
-
-			<Field id="message-type" type="textfield" visibleBindingId="settings-section" visibleBindingValue="indigo">
-				<Label>Message Type:</Label>
-			</Field>
-
-			<Field id="blu-relay" type="checkbox" defaultValue="false" visibleBindingId="settings-section" visibleBindingValue="indigo">
-				<Label>BLU Relay:</Label>
-				<Description>Relay BLU (BLE) messages back to the plugin</Description>
-			</Field>
-
-			<!-- System -->
-			<Template file="ConfigTemplates/ConfigureSystem.xml"/>
-
-			<!-- WiFi -->
-			<Template file="ConfigTemplates/ConfigureWifi.xml"/>
-
-			<!-- BLE -->
-			<Template file="ConfigTemplates/ConfigureBLE.xml"/>
-
-		</ConfigUI>
-		<States>
-		</States>
-	</Device>
-
-	<Device type="sensor" id="shelly-plus-2-pm-gen3">
-		<Name>Shelly Plus 2 PM Gen3</Name>
 		<ConfigUI>
             <Field type="checkbox" id="SupportsStatusRequest" defaultValue="true" hidden="true" />
             <Field type="checkbox" id="SupportsOnState" defaultValue="false" hidden="true" />

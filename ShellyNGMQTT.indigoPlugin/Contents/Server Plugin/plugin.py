@@ -23,7 +23,6 @@ from shelly.devices.ShellyPro1PM import ShellyPro1PM
 from shelly.devices.ShellyPro2 import ShellyPro2
 from shelly.devices.ShellyPro2PM import ShellyPro2PM
 from shelly.devices.ShellyPro4PM import ShellyPro4PM
-from shelly.devices.ShellyPlus2PMGen3 import ShellyPlus2PMGen3
 
 shelly_model_classes = {
     'shelly-blu-doorwindow': ShellyBLUDoorWindow,
@@ -43,7 +42,6 @@ shelly_model_classes = {
     'shelly-pro-2': ShellyPro2,
     'shelly-pro-2-pm': ShellyPro2PM,
     'shelly-pro-4-pm': ShellyPro4PM,
-    'shelly-plus-2-pm-gen3': ShellyPlus2PMGen3,
 }
 
 

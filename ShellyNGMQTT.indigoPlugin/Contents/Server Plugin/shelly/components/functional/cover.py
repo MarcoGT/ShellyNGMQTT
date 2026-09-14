@@ -38,7 +38,10 @@ class Cover(Component):
         elif action.deviceAction == indigo.kDeviceAction.TurnOff:
             self.close()
         elif action.deviceAction == indigo.kDeviceAction.Toggle:
-            self.stop()
+            if self.device.brightness == 0:
+                self.open()
+            else:
+                self.close()
         elif action.deviceAction == indigo.kDeviceAction.SetBrightness:
             self.go_to_position(action.actionValue)
         elif action.deviceAction == indigo.kDeviceAction.BrightenBy:
